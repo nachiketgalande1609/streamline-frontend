@@ -59,7 +59,9 @@ const Navbar = ({ profileImage, setProfileImage }) => {
             anchor="left"
         >
             <Toolbar>
-                <Typography variant="h6">Streamline</Typography>
+                <Typography sx={{ fontFamily: "Krona One, Roboto, sans-serif", fontWeight: 800, fontSize: 20, marginTop: "20px" }}>
+                    STREAMLINE
+                </Typography>
             </Toolbar>
             <List sx={{ flexGrow: 1 }}>
                 {!token && (
