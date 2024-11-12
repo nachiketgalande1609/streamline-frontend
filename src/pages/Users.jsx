@@ -126,7 +126,7 @@ export default function Users() {
                     <img
                         src={
                             params.value
-                                ? `${baseURL}${profileImage}`
+                                ? `${baseURL}${params.value}`
                                 : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" // Use a direct image URL here
                         }
                         alt="Profile"
