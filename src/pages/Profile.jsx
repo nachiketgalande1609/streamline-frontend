@@ -20,7 +20,7 @@ import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 
-const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+const baseURL = "https://streamline-backend.onrender.com" || "http://localhost:3001";
 
 export default function Profile({ profileImage, setProfileImage }) {
     const { user, updateUser } = useContext(UserContext);
