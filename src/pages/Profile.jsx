@@ -15,6 +15,7 @@ import {
     Snackbar,
     Alert,
     Tooltip,
+    CircularProgress,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
@@ -44,7 +45,9 @@ export default function Profile({ profileImage, setProfileImage }) {
     const roles = ["admin", "sales", "user", "manager"];
     const statuses = ["active", "inactive", "pending"];
 
+    const [loading, setLoading] = useState(true);
     const [updatingProfile, setUpdatingProfile] = useState(false);
+    const [updatingProfilePicture, setUpdatingProfilePicture] = useState(false);
 
     const breadcrumbs = [
         { label: "Home", path: "/" },
@@ -52,6 +55,7 @@ export default function Profile({ profileImage, setProfileImage }) {
     ];
 
     const fetchUserProfile = async () => {
+        setLoading(true);
         try {
             const response = await axios.post("api/users/profile", {
                 email: user?.email,
@@ -60,6 +64,8 @@ export default function Profile({ profileImage, setProfileImage }) {
             setFormData(response?.data?.data);
         } catch (error) {
             console.error("Error fetching user profile:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -81,6 +87,7 @@ export default function Profile({ profileImage, setProfileImage }) {
     const handleProfilePictureChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
+            setUpdatingProfilePicture(true);
             const formData = new FormData();
             formData.append("profilePicture", file);
 
@@ -102,6 +109,8 @@ export default function Profile({ profileImage, setProfileImage }) {
                 }
             } catch (error) {
                 console.error("Error uploading profile picture:", error);
+            } finally {
+                setUpdatingProfilePicture(false);
             }
         }
     };
@@ -138,229 +147,265 @@ export default function Profile({ profileImage, setProfileImage }) {
             </Typography>
             <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
 
-            <Box sx={{ display: "flex", marginTop: "16px", width: "100%" }}>
-                <Box
-                    sx={{
-                        flex: 1,
-                        padding: 3,
-                        borderRadius: "16px",
-                        textAlign: "center",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "1px solid #333",
-                        boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
-                    }}
-                >
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="upload-profile-picture"
-                        style={{ display: "none" }}
-                        onChange={handleProfilePictureChange}
-                    />
-                    <label htmlFor="upload-profile-picture" style={{ position: "relative" }}>
-                        <Tooltip title="Upload Profile Image" placement="top" arrow>
-                            <Box
-                                sx={{
-                                    position: "relative",
-                                    "&:hover .overlay": {
-                                        opacity: 1,
-                                        cursor: "pointer",
-                                    },
-                                }}
-                            >
-                                <Avatar
-                                    src={
-                                        profileImage
-                                            ? `${baseURL}${profileImage}`
-                                            : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
-                                    }
-                                    alt="Profile"
-                                    sx={{
-                                        width: 180,
-                                        height: 180,
-                                        borderRadius: "50%",
-                                        marginBottom: 2,
-                                        border: "4px solid #1E1E1E",
-                                        cursor: "pointer",
-                                    }}
-                                />
+            {loading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 220px)" }}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <Box sx={{ display: "flex", marginTop: "16px", width: "100%" }}>
+                    <Box
+                        sx={{
+                            flex: 1,
+                            padding: 3,
+                            borderRadius: "16px",
+                            textAlign: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            border: "1px solid #333",
+                            boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
+                        }}
+                    >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="upload-profile-picture"
+                            style={{ display: "none" }}
+                            onChange={handleProfilePictureChange}
+                        />
+                        <label htmlFor="upload-profile-picture" style={{ position: "relative" }}>
+                            <Tooltip title="Upload Profile Image" placement="top" arrow>
                                 <Box
-                                    className="overlay"
                                     sx={{
-                                        position: "absolute",
-                                        top: 0,
-                                        left: 0,
-                                        width: "100%",
-                                        height: "100%",
-                                        borderRadius: "50%",
-                                        backgroundColor: "rgba(0, 0, 0, 0.3)",
-                                        opacity: 0,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        transition: "opacity 0.3s ease",
+                                        position: "relative",
+                                        "&:hover .overlay": {
+                                            opacity: 1,
+                                            cursor: "pointer",
+                                        },
                                     }}
                                 >
-                                    <CameraAlt sx={{ color: "#fff", fontSize: 30 }} />
+                                    <Avatar
+                                        src={
+                                            profileImage
+                                                ? `${baseURL}${profileImage}`
+                                                : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                                        }
+                                        alt="Profile"
+                                        sx={{
+                                            width: 180,
+                                            height: 180,
+                                            borderRadius: "50%",
+                                            marginBottom: 2,
+                                            border: "4px solid #1E1E1E",
+                                            cursor: "pointer",
+                                            position: "relative", // Ensure it sits relative to the overlay
+                                            zIndex: 1, // Keep it behind the overlay
+                                        }}
+                                    />
+                                    {/* Loading overlay */}
+                                    {updatingProfilePicture && (
+                                        <Box
+                                            className="overlay"
+                                            sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                width: "100%",
+                                                height: "100%",
+                                                borderRadius: "50%",
+                                                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                                opacity: 1, // Ensure it's visible when updating
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                transition: "opacity 0.3s ease",
+                                                zIndex: 2, // Place overlay above the avatar
+                                            }}
+                                        >
+                                            <CircularProgress size={50} sx={{ color: "#fff" }} />
+                                        </Box>
+                                    )}
+                                    {/* Camera icon overlay */}
+                                    {!updatingProfilePicture && (
+                                        <Box
+                                            className="overlay"
+                                            sx={{
+                                                position: "absolute",
+                                                top: 0,
+                                                left: 0,
+                                                width: "100%",
+                                                height: "100%",
+                                                borderRadius: "50%",
+                                                backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                                opacity: 0,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                transition: "opacity 0.3s ease",
+                                                zIndex: 2, // Ensure the icon is above the avatar
+                                            }}
+                                        >
+                                            <CameraAlt sx={{ color: "#fff", fontSize: 30 }} />
+                                        </Box>
+                                    )}
+                                </Box>
+                            </Tooltip>
+                        </label>
+
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                            {userData?.firstName} {userData?.lastName}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {userData?.role}
+                        </Typography>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            flex: 2,
+                            padding: 3,
+                            borderRadius: "16px",
+                            marginLeft: "16px",
+                            border: "1px solid #333",
+                            boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
+                        }}
+                    >
+                        <Typography variant="h6" gutterBottom>
+                            Profile Information
+                        </Typography>
+                        <form onSubmit={handleSubmit}>
+                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                                {/* First Name */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <TextField
+                                        label="First Name"
+                                        name="firstName"
+                                        value={formData?.firstName}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        margin="normal"
+                                        InputProps={{
+                                            style: { borderRadius: "16px" },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Last Name */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <TextField
+                                        label="Last Name"
+                                        name="lastName"
+                                        value={formData?.lastName}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        margin="normal"
+                                        InputProps={{
+                                            style: { borderRadius: "16px" },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Phone Number */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <TextField
+                                        label="Phone Number"
+                                        name="phoneNumber"
+                                        value={formData?.phoneNumber}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        margin="normal"
+                                        InputProps={{
+                                            style: { borderRadius: "16px" },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Email Address */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <TextField
+                                        label="Email Address"
+                                        name="email"
+                                        value={formData?.email}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        margin="normal"
+                                        InputProps={{
+                                            style: { borderRadius: "16px" },
+                                        }}
+                                    />
+                                </Box>
+
+                                {/* Status */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel id="status-label">Status</InputLabel>
+                                        <Select
+                                            labelId="status-label"
+                                            name="status"
+                                            value={formData?.status}
+                                            onChange={handleChange}
+                                            label="Status"
+                                            sx={{
+                                                borderRadius: "16px", // Add border radius here
+                                            }}
+                                        >
+                                            {statuses.map((status) => (
+                                                <MenuItem key={status} value={status}>
+                                                    {status}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+
+                                {/* Role */}
+                                <Box sx={{ flex: "1 1 45%" }}>
+                                    <FormControl fullWidth margin="normal">
+                                        <InputLabel id="role-label">Role</InputLabel>
+                                        <Select
+                                            labelId="role-label"
+                                            name="role"
+                                            value={formData?.role}
+                                            onChange={handleChange}
+                                            label="Role"
+                                            sx={{
+                                                borderRadius: "16px", // Add border radius here
+                                            }}
+                                        >
+                                            {roles.map((role) => (
+                                                <MenuItem key={role} value={role}>
+                                                    {role}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                 </Box>
                             </Box>
-                        </Tooltip>
-                    </label>
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                        {userData?.firstName} {userData?.lastName}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        {userData?.role}
-                    </Typography>
+
+                            {/* Update Button */}
+                            <Box sx={{ display: "flex", justifyContent: "end", marginTop: 2 }}>
+                                <LoadingButton
+                                    type="submit"
+                                    variant="contained"
+                                    loading={updatingProfile}
+                                    loadingPosition="end"
+                                    sx={{
+                                        borderRadius: "16px",
+                                        width: "150px",
+                                        backgroundColor: "#000000",
+                                        "&:hover": {
+                                            backgroundColor: "#424242",
+                                        },
+                                    }}
+                                >
+                                    {updatingProfile ? "Updating" : "Update"}
+                                </LoadingButton>
+                            </Box>
+                        </form>
+                    </Box>
                 </Box>
-
-                <Box
-                    sx={{
-                        flex: 2,
-                        padding: 3,
-                        borderRadius: "16px",
-                        marginLeft: "16px",
-                        border: "1px solid #333",
-                        boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
-                    }}
-                >
-                    <Typography variant="h6" gutterBottom>
-                        Profile Information
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
-                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                            {/* First Name */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <TextField
-                                    label="First Name"
-                                    name="firstName"
-                                    value={formData?.firstName}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    InputProps={{
-                                        style: { borderRadius: "16px" },
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Last Name */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <TextField
-                                    label="Last Name"
-                                    name="lastName"
-                                    value={formData?.lastName}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    InputProps={{
-                                        style: { borderRadius: "16px" },
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Phone Number */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <TextField
-                                    label="Phone Number"
-                                    name="phoneNumber"
-                                    value={formData?.phoneNumber}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    InputProps={{
-                                        style: { borderRadius: "16px" },
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Email Address */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <TextField
-                                    label="Email Address"
-                                    name="email"
-                                    value={formData?.email}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    margin="normal"
-                                    InputProps={{
-                                        style: { borderRadius: "16px" },
-                                    }}
-                                />
-                            </Box>
-
-                            {/* Status */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel id="status-label">Status</InputLabel>
-                                    <Select
-                                        labelId="status-label"
-                                        name="status"
-                                        value={formData?.status}
-                                        onChange={handleChange}
-                                        label="Status"
-                                        sx={{
-                                            borderRadius: "16px", // Add border radius here
-                                        }}
-                                    >
-                                        {statuses.map((status) => (
-                                            <MenuItem key={status} value={status}>
-                                                {status}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Box>
-
-                            {/* Role */}
-                            <Box sx={{ flex: "1 1 45%" }}>
-                                <FormControl fullWidth margin="normal">
-                                    <InputLabel id="role-label">Role</InputLabel>
-                                    <Select
-                                        labelId="role-label"
-                                        name="role"
-                                        value={formData?.role}
-                                        onChange={handleChange}
-                                        label="Role"
-                                        sx={{
-                                            borderRadius: "16px", // Add border radius here
-                                        }}
-                                    >
-                                        {roles.map((role) => (
-                                            <MenuItem key={role} value={role}>
-                                                {role}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Box>
-                        </Box>
-
-                        {/* Update Button */}
-                        <Box sx={{ display: "flex", justifyContent: "end", marginTop: 2 }}>
-                            <LoadingButton
-                                type="submit"
-                                variant="contained"
-                                loading={updatingProfile}
-                                loadingPosition="end"
-                                sx={{
-                                    borderRadius: "16px",
-                                    width: "150px",
-                                    backgroundColor: "#000000",
-                                    "&:hover": {
-                                        backgroundColor: "#424242",
-                                    },
-                                }}
-                            >
-                                {updatingProfile ? "Updating" : "Update"}
-                            </LoadingButton>
-                        </Box>
-                    </form>
-                </Box>
-            </Box>
+            )}
 
             <Snackbar
                 open={alertOpen}
