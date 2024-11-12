@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { Box, Typography, Button, Snackbar, Alert, IconButton, MenuItem, FormControl, Select, Chip } from "@mui/material";
+import { Box, Typography, Button, Snackbar, Alert, IconButton, MenuItem, FormControl, Select, Chip, CircularProgress } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import * as Papa from "papaparse";
@@ -17,6 +17,7 @@ export default function Users() {
     const [selectedRole, setSelectedRole] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(25);
@@ -69,6 +70,7 @@ export default function Users() {
     };
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/users");
             const data = response.data.data;
@@ -92,6 +94,8 @@ export default function Users() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -219,8 +223,8 @@ export default function Users() {
                     Users
                 </Typography>
                 <Box sx={{ display: "flex", gap: 1 }}>
-                    <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                        <FileDownloadIcon />
+                    <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                        {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                     </IconButton>
                     <FormControl size="small" sx={{ minWidth: 150 }}>
                         <Select

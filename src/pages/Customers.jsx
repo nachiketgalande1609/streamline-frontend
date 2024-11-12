@@ -18,6 +18,7 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
+    CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Close } from "@mui/icons-material";
@@ -32,6 +33,7 @@ export default function Customers() {
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState("success");
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
 
     const [formData, setFormData] = useState({});
     const [isEditMode, setIsEditMode] = useState(false);
@@ -178,6 +180,7 @@ export default function Customers() {
     };
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/customers");
             const data = response.data.data;
@@ -216,6 +219,8 @@ export default function Customers() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -381,8 +386,8 @@ export default function Customers() {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Export Data" arrow>
-                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                            <FileDownloadIcon />
+                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                            {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                         </IconButton>
                     </Tooltip>
                 </Box>

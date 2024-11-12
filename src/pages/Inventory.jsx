@@ -67,6 +67,7 @@ export default function Inventory() {
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState("success");
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
     const [searching, setSearching] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -158,6 +159,7 @@ export default function Inventory() {
     };
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/inventory");
             const data = response.data.data;
@@ -194,6 +196,8 @@ export default function Inventory() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -735,8 +739,8 @@ export default function Inventory() {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Export Data" arrow>
-                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                            <FileDownloadIcon />
+                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                            {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                         </IconButton>
                     </Tooltip>
                     <TextField

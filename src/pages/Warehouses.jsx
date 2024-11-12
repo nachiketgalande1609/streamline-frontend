@@ -16,6 +16,7 @@ import {
     TextField,
     Chip,
     Tooltip,
+    CircularProgress,
 } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,6 +34,7 @@ export default function Warehouses() {
     const [selectedStatus, setSelectedStatus] = useState("");
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
     const [formData, setFormData] = useState({
         warehouse_id: "",
         name: "",
@@ -109,6 +111,7 @@ export default function Warehouses() {
     const handleClose = () => setOpen(false);
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/warehouse");
             const data = response.data.data;
@@ -132,6 +135,8 @@ export default function Warehouses() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -267,8 +272,8 @@ export default function Warehouses() {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Export Data" arrow>
-                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                            <FileDownloadIcon />
+                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                            {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                         </IconButton>
                     </Tooltip>
                     <FormControl size="small" sx={{ minWidth: 150 }}>

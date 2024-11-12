@@ -16,6 +16,7 @@ import {
     Alert,
     Tooltip,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
@@ -42,6 +43,8 @@ export default function Profile({ profileImage, setProfileImage }) {
 
     const roles = ["admin", "sales", "user", "manager"];
     const statuses = ["active", "inactive", "pending"];
+
+    const [updatingProfile, setUpdatingProfile] = useState(false);
 
     const breadcrumbs = [
         { label: "Home", path: "/" },
@@ -104,6 +107,7 @@ export default function Profile({ profileImage, setProfileImage }) {
     };
 
     const handleSubmit = async (e) => {
+        setUpdatingProfile(true);
         e.preventDefault();
         try {
             const response = await axios.put("api/users/update", formData);
@@ -122,6 +126,8 @@ export default function Profile({ profileImage, setProfileImage }) {
             setMessage(error);
             setSeverity("error");
             setAlertOpen(true);
+        } finally {
+            setUpdatingProfile(false);
         }
     };
 
@@ -335,9 +341,11 @@ export default function Profile({ profileImage, setProfileImage }) {
 
                         {/* Update Button */}
                         <Box sx={{ display: "flex", justifyContent: "end", marginTop: 2 }}>
-                            <Button
+                            <LoadingButton
                                 type="submit"
                                 variant="contained"
+                                loading={updatingProfile}
+                                loadingPosition="end"
                                 sx={{
                                     borderRadius: "16px",
                                     width: "150px",
@@ -347,8 +355,8 @@ export default function Profile({ profileImage, setProfileImage }) {
                                     },
                                 }}
                             >
-                                Update
-                            </Button>
+                                {updatingProfile ? "Updating" : "Update"}
+                            </LoadingButton>
                         </Box>
                     </form>
                 </Box>

@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { Box, Typography, Button, Snackbar, Alert, IconButton, Chip, Tooltip } from "@mui/material";
+import { Box, Typography, Button, Snackbar, Alert, IconButton, Chip, Tooltip, CircularProgress } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import * as Papa from "papaparse";
@@ -15,6 +15,7 @@ export default function Sales() {
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState("success");
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(25);
@@ -60,6 +61,7 @@ export default function Sales() {
     };
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/sales");
             const flattenedData = response.data.data.map((sale) => ({
@@ -99,6 +101,8 @@ export default function Sales() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -230,8 +234,8 @@ export default function Sales() {
                 </Typography>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <Tooltip title="Export Data" arrow>
-                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                            <FileDownloadIcon />
+                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                            {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                         </IconButton>
                     </Tooltip>
                 </Box>

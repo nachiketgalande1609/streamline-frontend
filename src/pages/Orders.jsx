@@ -3,7 +3,22 @@ import { useNavigate } from "react-router-dom";
 
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { Modal, Button, Box, Typography, TextField, Snackbar, Alert, IconButton, FormControl, Select, MenuItem, Tooltip, Chip } from "@mui/material";
+import {
+    Modal,
+    Button,
+    Box,
+    Typography,
+    TextField,
+    Snackbar,
+    Alert,
+    IconButton,
+    FormControl,
+    Select,
+    MenuItem,
+    Tooltip,
+    Chip,
+    CircularProgress,
+} from "@mui/material";
 import * as Papa from "papaparse";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -36,6 +51,7 @@ export default function Orders() {
     const [items, setItems] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState("");
     const [loading, setLoading] = useState(true);
+    const [downloading, setDownloading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(25);
@@ -116,6 +132,7 @@ export default function Orders() {
     };
 
     const handleExport = async () => {
+        setDownloading(true);
         try {
             const response = await axios.get("/api/orders");
             const data = response.data.data;
@@ -155,6 +172,8 @@ export default function Orders() {
             setAlertOpen(true);
         } catch (error) {
             console.error("Error exporting customer data:", error);
+        } finally {
+            setDownloading(false);
         }
     };
 
@@ -855,8 +874,8 @@ export default function Orders() {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Export Data" arrow>
-                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }}>
-                            <FileDownloadIcon />
+                        <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
+                            {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}
                         </IconButton>
                     </Tooltip>
                     <FormControl size="small" sx={{ minWidth: 150 }}>
