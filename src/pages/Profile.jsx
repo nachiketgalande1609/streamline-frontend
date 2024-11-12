@@ -20,6 +20,8 @@ import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 
+const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+
 export default function Profile({ profileImage, setProfileImage }) {
     const { user, updateUser } = useContext(UserContext);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -166,7 +168,7 @@ export default function Profile({ profileImage, setProfileImage }) {
                                 <Avatar
                                     src={
                                         profileImage
-                                            ? `http://localhost:3001${profileImage}`
+                                            ? `${baseURL}${profileImage}`
                                             : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
                                     }
                                     alt="Profile"

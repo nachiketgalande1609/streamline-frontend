@@ -6,6 +6,8 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import * as Papa from "papaparse";
 
+const baseURL = process.env.REACT_APP_API_URL || "http://localhost:3001";
+
 export default function Users() {
     const [rows, setRows] = useState([]);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -124,7 +126,7 @@ export default function Users() {
                     <img
                         src={
                             params.value
-                                ? `http://localhost:3001${params.value}`
+                                ? `${baseURL}${profileImage}`
                                 : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" // Use a direct image URL here
                         }
                         alt="Profile"
