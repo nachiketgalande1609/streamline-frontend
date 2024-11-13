@@ -7,6 +7,7 @@ import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
 
 export default function OrderDetails() {
     const navigate = useNavigate();
@@ -69,7 +70,11 @@ export default function OrderDetails() {
     };
 
     if (loading) {
-        return <CircularProgress />;
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 120px)" }}>
+                <GradientCircularProgress />
+            </Box>
+        );
     }
 
     if (!orderDetails) {
@@ -114,13 +119,8 @@ export default function OrderDetails() {
         },
     ];
 
-    // Define the steps for the timeline based on order status
-    const steps =
-        orderDetails.status === "cancelled"
-            ? ["Pending", "Cancelled"] // Show only pending and cancelled
-            : ["Pending", "Shipped", "Delivered"]; // Show pending, shipped, and delivered
+    const steps = orderDetails.status === "cancelled" ? ["Pending", "Cancelled"] : ["Pending", "Shipped", "Delivered"];
 
-    // Get the current status index based on orderDetails.status
     const statusIndex = steps.findIndex((step) => step.toLowerCase() === orderDetails.status);
 
     return (

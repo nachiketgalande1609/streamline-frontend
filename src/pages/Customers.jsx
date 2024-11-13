@@ -25,6 +25,8 @@ import { Close } from "@mui/icons-material";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import EditIcon from "@mui/icons-material/Edit";
 import * as Papa from "papaparse";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
+import { styled } from "@mui/material/styles";
 
 export default function Customers() {
     const [rows, setRows] = useState([]);
@@ -373,6 +375,26 @@ export default function Customers() {
         },
     ];
 
+    const StyledGridOverlay = styled("div")(({ theme }) => ({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        backgroundColor: "rgba(18, 18, 18, 0.9)",
+        ...theme.applyStyles("light", {
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+        }),
+    }));
+
+    function CustomLoadingOverlay() {
+        return (
+            <StyledGridOverlay>
+                <GradientCircularProgress />
+            </StyledGridOverlay>
+        );
+    }
+
     return (
         <div>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -663,6 +685,9 @@ export default function Customers() {
                     disableRowSelectionOnClick
                     disableColumnMenu
                     loading={loading}
+                    slots={{
+                        loadingOverlay: CustomLoadingOverlay,
+                    }}
                 />
             </Box>
             <Snackbar

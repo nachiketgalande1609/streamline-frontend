@@ -4,6 +4,7 @@ import { Card, Typography, Divider, CircularProgress, Box, Tooltip } from "@mui/
 import { styled } from "@mui/material/styles";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     backgroundColor: "#ffffff", // Transparent card background
@@ -186,7 +187,7 @@ export default function Dashboard() {
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="calc(100vh - 120px)">
-                <CircularProgress />
+                <GradientCircularProgress />
             </Box>
         );
     }

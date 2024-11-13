@@ -4,6 +4,8 @@ import axios from "axios";
 import { Box, Typography, Snackbar, Button, Alert, Tooltip } from "@mui/material";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import { useNavigate } from "react-router-dom";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
+import { styled } from "@mui/material/styles";
 
 export default function TicketTable() {
     const navigate = useNavigate();
@@ -117,6 +119,26 @@ export default function TicketTable() {
         },
     ];
 
+    const StyledGridOverlay = styled("div")(({ theme }) => ({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        backgroundColor: "rgba(18, 18, 18, 0.9)",
+        ...theme.applyStyles("light", {
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+        }),
+    }));
+
+    function CustomLoadingOverlay() {
+        return (
+            <StyledGridOverlay>
+                <GradientCircularProgress />
+            </StyledGridOverlay>
+        );
+    }
+
     return (
         <div>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -153,6 +175,9 @@ export default function TicketTable() {
                     disableRowSelectionOnClick
                     disableColumnMenu
                     loading={loading}
+                    slots={{
+                        loadingOverlay: CustomLoadingOverlay,
+                    }}
                 />
             </Box>
             <Snackbar

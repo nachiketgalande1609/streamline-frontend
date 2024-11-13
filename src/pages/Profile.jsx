@@ -17,6 +17,8 @@ import {
     Tooltip,
     CircularProgress,
 } from "@mui/material";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
+
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
@@ -149,7 +151,7 @@ export default function Profile({ profileImage, setProfileImage }) {
 
             {loading ? (
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "calc(100vh - 220px)" }}>
-                    <CircularProgress />
+                    <GradientCircularProgress />
                 </Box>
             ) : (
                 <Box sx={{ display: "flex", marginTop: "16px", width: "100%" }}>

@@ -59,7 +59,7 @@ const Navbar = ({ profileImage, setProfileImage }) => {
             anchor="left"
         >
             <Toolbar>
-                <Typography sx={{ fontFamily: "Krona One, Roboto, sans-serif", fontWeight: 800, fontSize: 20, marginTop: "20px" }}>
+                <Typography sx={{ fontFamily: "Krona One, Roboto, sans-serif", fontWeight: 800, fontSize: 20, marginTop: "20px", color: "#ff9900" }}>
                     STREAMLINE
                 </Typography>
             </Toolbar>

@@ -22,6 +22,8 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddIcon from "@mui/icons-material/Add";
 import { Close } from "@mui/icons-material";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
+import { styled } from "@mui/material/styles";
 
 import * as Papa from "papaparse";
 
@@ -259,6 +261,26 @@ export default function Warehouses() {
         });
     };
 
+    const StyledGridOverlay = styled("div")(({ theme }) => ({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        backgroundColor: "rgba(18, 18, 18, 0.9)",
+        ...theme.applyStyles("light", {
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+        }),
+    }));
+
+    function CustomLoadingOverlay() {
+        return (
+            <StyledGridOverlay>
+                <GradientCircularProgress />
+            </StyledGridOverlay>
+        );
+    }
+
     return (
         <div>
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -324,6 +346,9 @@ export default function Warehouses() {
                     disableRowSelectionOnClick
                     disableColumnMenu
                     loading={loading}
+                    slots={{
+                        loadingOverlay: CustomLoadingOverlay,
+                    }}
                 />
             </Box>
             <Snackbar

@@ -4,7 +4,6 @@ import axios from "axios";
 import {
     Box,
     Typography,
-    CircularProgress,
     TextField,
     MenuItem,
     Grid,
@@ -24,6 +23,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import GradientCircularProgress from "../parts/GradientCircularProgress";
 
 const SLA_DURATION = 4 * 60 * 60 * 1000;
 
@@ -170,7 +170,7 @@ export default function IncidentDetails() {
     if (loading) {
         return (
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                <CircularProgress />
+                <GradientCircularProgress />
             </Box>
         );
     }
@@ -424,7 +424,7 @@ export default function IncidentDetails() {
                                 width: "100%",
                             }}
                         >
-                            <CircularProgress />
+                            <GradientCircularProgress />
                         </Box>
                     ) : (
                         <>
