@@ -27,6 +27,7 @@ axios.defaults.baseURL = "https://streamline-backend.onrender.com";
 function Layout() {
     const location = useLocation();
     const [profileImage, setProfileImage] = useState(localStorage.getItem("userProfile"));
+    const [hideNavbarAndFooter, setHideNavbarAndFooter] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -40,9 +41,11 @@ function Layout() {
             axios.defaults.headers.common["user_email"] = userEmail;
             axios.defaults.headers.common["user_name"] = userName;
         }
+
+        const currentPath = location.pathname;
+        setHideNavbarAndFooter(currentPath === "/login" || currentPath === "/register");
     }, []);
 
-    const hideNavbarAndFooter = location.pathname === "/login" || location.pathname === "/register";
     return (
         <div
             style={{
