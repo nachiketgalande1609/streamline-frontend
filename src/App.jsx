@@ -21,6 +21,8 @@ import RaiseTicket from "./pages/RaiseTicket";
 import Incidents from "./pages/Incidents";
 import IncidentDetails from "./pages/IncidentDetails";
 import FinancialReconciliation from "./pages/FinancialReconciliation";
+import GradientCircularProgress from "./parts/GradientCircularProgress";
+import backgroundImage from "../assets/bg.jpg";
 
 axios.defaults.baseURL = "https://streamline-backend.onrender.com";
 
@@ -28,6 +30,7 @@ function Layout() {
     const location = useLocation();
     const [profileImage, setProfileImage] = useState(localStorage.getItem("userProfile"));
     const [hideNavbarAndFooter, setHideNavbarAndFooter] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -44,7 +47,28 @@ function Layout() {
 
         const currentPath = location.pathname;
         setHideNavbarAndFooter(currentPath === "/login" || currentPath === "/register");
-    }, []);
+
+        setLoading(false);
+    }, [location]);
+
+    if (loading) {
+        return (
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
+                <GradientCircularProgress />
+            </div>
+        );
+    }
 
     return (
         <div
