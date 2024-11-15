@@ -24,7 +24,7 @@ import FinancialReconciliation from "./pages/FinancialReconciliation";
 import GradientCircularProgress from "./parts/GradientCircularProgress";
 import backgroundImage from "../assets/bg.jpg";
 
-axios.defaults.baseURL = "https://streamline-backend.onrender.com";
+axios.defaults.baseURL = "https://streamline-backend.azurewebsites.net";
 
 function Layout() {
     const location = useLocation();
