@@ -21,7 +21,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 import axios from "axios";
 
-const baseURL = "https://streamline-backend.azurewebsites.net" || "http://localhost:3001";
+const baseURL = "http://localhost:3001";
 
 const drawerWidth = 240;
 

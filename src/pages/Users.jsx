@@ -8,7 +8,7 @@ import * as Papa from "papaparse";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
 
-const baseURL = "https://streamline-backend.azurewebsites.net" || "http://localhost:3001";
+const baseURL = "http://localhost:3001";
 
 export default function Users() {
     const [rows, setRows] = useState([]);

@@ -100,6 +100,22 @@ export default function Dashboard() {
     };
 
     const WarehouseGauge = () => {
+        const [animatedStock, setAnimatedStock] = useState([]);
+
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setAnimatedStock((prevStock) =>
+                    dashboardData.warehouse_summary.map((warehouse, index) => {
+                        const targetPercentage = Math.round((warehouse.currentStock / warehouse.capacity) * 100);
+                        const current = prevStock[index] || 0;
+                        return current < targetPercentage ? current + 5 : targetPercentage; // Increase gradually
+                    })
+                );
+            }, 50);
+
+            return () => clearInterval(interval);
+        }, [dashboardData.warehouse_summary]);
+
         return (
             <Box
                 sx={{
@@ -128,7 +144,7 @@ export default function Dashboard() {
                     }}
                 >
                     {dashboardData.warehouse_summary.map((warehouse, index) => {
-                        const stockPercentage = Math.round((warehouse.currentStock / warehouse.capacity) * 100);
+                        const stockPercentage = animatedStock[index] || 0;
                         const gaugeColor = stockPercentage > 70 ? "#FF5252" : stockPercentage > 50 ? "#FFC107" : "#4CAF50";
 
                         return (
@@ -153,6 +169,7 @@ export default function Dashboard() {
                                         thickness={6}
                                         sx={{
                                             color: gaugeColor,
+                                            transition: "all 0.5s ease-in-out",
                                         }}
                                     />
                                     {/* Display Percentage at the Center */}

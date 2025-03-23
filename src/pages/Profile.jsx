@@ -24,7 +24,7 @@ import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 
-const baseURL = "https://streamline-backend.azurewebsites.net" || "http://localhost:3001";
+const baseURL = "http://localhost:3001";
 
 export default function Profile({ profileImage, setProfileImage }) {
     const { user, updateUser } = useContext(UserContext);
