@@ -212,19 +212,20 @@ export default function Login() {
                                                 borderColor: "#e0e0e0",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#667eea",
+                                                borderColor: "#e0e0e0",
                                             },
                                             "&.Mui-focused fieldset": {
-                                                borderColor: "#667eea",
-                                                boxShadow: "0 0 0 2px rgba(102, 126, 234, 0.2)",
+                                                borderColor: "#e0e0e0",
+                                                boxShadow: "none",
                                             },
                                         },
                                         "& .MuiInputLabel-root.Mui-focused": {
-                                            color: "#667eea",
+                                            color: "inherit",
                                         },
                                         margin: 0,
                                     }}
                                 />
+
                                 <TextField
                                     fullWidth
                                     placeholder="Password"
@@ -260,15 +261,15 @@ export default function Login() {
                                                 borderColor: "#e0e0e0",
                                             },
                                             "&:hover fieldset": {
-                                                borderColor: "#667eea",
+                                                borderColor: "#e0e0e0",
                                             },
                                             "&.Mui-focused fieldset": {
-                                                borderColor: "#667eea",
-                                                boxShadow: "0 0 0 2px rgba(102, 126, 234, 0.2)",
+                                                borderColor: "#e0e0e0",
+                                                boxShadow: "none",
                                             },
                                         },
                                         "& .MuiInputLabel-root.Mui-focused": {
-                                            color: "#667eea",
+                                            color: "inherit",
                                         },
                                         margin: 0,
                                     }}

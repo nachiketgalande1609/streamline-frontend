@@ -32,7 +32,7 @@ const baseURL = "http://localhost:3001";
 const StyledCard = styled(Card)(({ theme }) => ({
     background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
     borderRadius: "12px",
-    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    boxShadow: "9px 9px 18px #ededed,-9px -9px 18px #ffffff",
     padding: "24px",
     transition: "all 0.3s ease",
     position: "relative",
@@ -51,7 +51,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const ProfileCard = styled(Card)(({ theme }) => ({
     background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
     borderRadius: "12px",
-    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    boxShadow: "9px 9px 18px #ededed,-9px -9px 18px #ffffff",
     padding: "32px",
     display: "flex",
     flexDirection: "column",
@@ -60,6 +60,7 @@ const ProfileCard = styled(Card)(({ theme }) => ({
     textAlign: "center",
     transition: "all 0.3s ease",
     position: "relative",
+    height: "372.41px",
     "&::before": {
         content: '""',
         position: "absolute",
@@ -319,7 +320,6 @@ export default function Profile({ profileImage, setProfileImage }) {
                                 <Box
                                     sx={{
                                         backgroundColor: theme.palette.primary.light,
-                                        color: theme.palette.primary.main,
                                         px: 2,
                                         py: 1,
                                         borderRadius: "12px",
