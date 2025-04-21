@@ -133,7 +133,7 @@ export default function Users() {
                         src={
                             params.value
                                 ? `${baseURL}${params.value}`
-                                : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg" // Use a direct image URL here
+                                : "https://static-00.iconduck.com/assets.00/profile-major-icon-512x512-xosjbbdq.png" // Use a direct image URL here
                         }
                         alt="Profile"
                         style={{

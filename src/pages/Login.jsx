@@ -25,30 +25,9 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [fetchingTenants, setFetchingTenants] = useState(false);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
     const [severity, setSeverity] = useState("success");
-
-    const [tenant, setTenant] = useState("");
-    const [tenantList, setTenantList] = useState([]);
-
-    useEffect(() => {
-        const fetchTenants = async () => {
-            setFetchingTenants(true);
-            try {
-                const response = await axios.get("/api/tenants");
-                setTenantList(response?.data?.data);
-            } catch (error) {
-                console.error("Error fetching tenants:", error);
-                setTenantList([]);
-            } finally {
-                setFetchingTenants(false);
-            }
-        };
-
-        fetchTenants();
-    }, []);
 
     async function loginUser(event) {
         event.preventDefault();
@@ -60,7 +39,6 @@ export default function Login() {
                 {
                     email,
                     password,
-                    tenant,
                 },
                 {
                     headers: {
@@ -76,14 +54,12 @@ export default function Login() {
                 localStorage.setItem("userId", loggedinUser?.user_id);
                 localStorage.setItem("userEmail", loggedinUser?.user_email);
                 localStorage.setItem("userProfile", loggedinUser?.user_profile);
-                localStorage.setItem("userTenant", loggedinUser?.user_tenant);
                 localStorage.setItem("userName", loggedinUser?.user_first_name + " " + loggedinUser?.user_last_name);
 
                 axios.defaults.headers.common["Authorization"] = `Bearer ${response?.data?.token}`;
                 axios.defaults.headers.common["user_id"] = `${localStorage?.getItem("userId")}`;
                 axios.defaults.headers.common["user_email"] = `${localStorage?.getItem("userEmail")}`;
                 axios.defaults.headers.common["user_name"] = `${localStorage?.getItem("userName")}`;
-                axios.defaults.headers.common["user_tenant"] = `${localStorage?.getItem("userTenant")}`;
                 setMessage("Login Successful");
                 setSeverity("success");
                 setOpen(true);
@@ -135,98 +111,76 @@ export default function Login() {
                         height: "441px",
                     }}
                 >
-                    {fetchingTenants ? (
-                        <GradientCircularProgress />
-                    ) : (
-                        <>
-                            <Typography component="h1" variant="h5" sx={{ color: "#37474f" }}>
-                                Login
-                            </Typography>
-                            <Box component="form" onSubmit={loginUser} sx={{ mt: 1 }}>
-                                <FormControl fullWidth margin="normal" required>
-                                    <InputLabel id="tenant-select-label">Select Tenant</InputLabel>
-                                    <Select
-                                        labelId="tenant-select-label"
-                                        value={tenant}
-                                        onChange={(e) => setTenant(e?.target?.value)}
-                                        variant="outlined"
-                                        sx={{ borderRadius: "16px" }}
+                    <Typography component="h1" variant="h5" sx={{ color: "#37474f" }}>
+                        Login
+                    </Typography>
+                    <Box component="form" onSubmit={loginUser} sx={{ mt: 1 }}>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e?.target?.value)}
+                            autoComplete="email"
+                            autoFocus
+                            InputProps={{
+                                style: {
+                                    borderRadius: "16px",
+                                },
+                            }}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e?.target?.value)}
+                            autoComplete="current-password"
+                            InputProps={{
+                                style: {
+                                    borderRadius: "16px",
+                                },
+                            }}
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{
+                                mt: 3,
+                                mb: 2,
+                                borderRadius: "16px",
+                                backgroundColor: "#000000",
+                                "&:hover": { backgroundColor: "#424242" },
+                            }}
+                            disabled={loading}
+                        >
+                            {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
+                        </Button>
+                        <Grid container>
+                            <Grid item>
+                                <Link to="/register" style={{ textDecoration: "none" }}>
+                                    <Button
+                                        variant="text"
+                                        sx={{
+                                            color: "#37474f",
+                                            "&:hover": {
+                                                backgroundColor: "#ffffff",
+                                            },
+                                        }}
                                     >
-                                        {tenantList?.map((tenant) => (
-                                            <MenuItem key={tenant?._id} value={tenant?._id}>
-                                                {tenant?.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    label="Email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e?.target?.value)}
-                                    autoComplete="email"
-                                    autoFocus
-                                    InputProps={{
-                                        style: {
-                                            borderRadius: "16px",
-                                        },
-                                    }}
-                                />
-                                <TextField
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    label="Password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e?.target?.value)}
-                                    autoComplete="current-password"
-                                    InputProps={{
-                                        style: {
-                                            borderRadius: "16px",
-                                        },
-                                    }}
-                                />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{
-                                        mt: 3,
-                                        mb: 2,
-                                        borderRadius: "16px",
-                                        backgroundColor: "#000000",
-                                        "&:hover": { backgroundColor: "#424242" },
-                                    }}
-                                    disabled={loading}
-                                >
-                                    {loading ? <CircularProgress size={24} color="inherit" /> : "Login"}
-                                </Button>
-                                <Grid container>
-                                    <Grid item>
-                                        <Link to="/register" style={{ textDecoration: "none" }}>
-                                            <Button
-                                                variant="text"
-                                                sx={{
-                                                    color: "#37474f",
-                                                    "&:hover": {
-                                                        backgroundColor: "#ffffff",
-                                                    },
-                                                }}
-                                            >
-                                                Don't have an account? Register
-                                            </Button>
-                                        </Link>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                        </>
-                    )}
+                                        Don't have an account? Register
+                                    </Button>
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
                 </Box>
                 <Snackbar
                     open={open}

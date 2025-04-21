@@ -191,7 +191,7 @@ export default function Profile({ profileImage, setProfileImage }) {
                                         src={
                                             profileImage
                                                 ? `${baseURL}${profileImage}`
-                                                : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                                                : "https://static-00.iconduck.com/assets.00/profile-major-icon-512x512-xosjbbdq.png"
                                         }
                                         alt="Profile"
                                         sx={{

@@ -270,23 +270,6 @@ const Navbar = ({ profileImage, setProfileImage }) => {
                             <ListItem
                                 button
                                 component={Link}
-                                to="/recon"
-                                sx={{
-                                    backgroundColor: isActive("/recon") ? "#424242" : "transparent",
-                                    "&:hover": {
-                                        backgroundColor: "#2b2b2b",
-                                    },
-                                }}
-                            >
-                                <ListItemIcon sx={{ color: "#ffffff" }}>
-                                    <CurrencyRupeeIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Reconciliation" sx={{ color: "#ffffff" }} />
-                            </ListItem>
-
-                            <ListItem
-                                button
-                                component={Link}
                                 onClick={handleLogout}
                                 sx={{
                                     backgroundColor: isActive("/logout") ? "#424242" : "transparent",
@@ -322,7 +305,7 @@ const Navbar = ({ profileImage, setProfileImage }) => {
                                 src={
                                     profileImage
                                         ? `${baseURL}${profileImage}`
-                                        : "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+                                        : "https://static-00.iconduck.com/assets.00/profile-major-icon-512x512-xosjbbdq.png"
                                 }
                                 alt="Profile"
                                 style={{

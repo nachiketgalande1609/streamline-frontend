@@ -20,7 +20,6 @@ import OrderDetails from "./pages/OrderDetails";
 import RaiseTicket from "./pages/RaiseTicket";
 import Incidents from "./pages/Incidents";
 import IncidentDetails from "./pages/IncidentDetails";
-import FinancialReconciliation from "./pages/FinancialReconciliation";
 import GradientCircularProgress from "./parts/GradientCircularProgress";
 import backgroundImage from "../assets/bg.jpg";
 
@@ -116,7 +115,6 @@ function Layout() {
                         <Route path="/customers" element={<Customers />} />
                         <Route path="/raise-ticket" element={<RaiseTicket />} />
                         <Route path="/incidents" element={<Incidents />} />
-                        <Route path="/recon" element={<FinancialReconciliation />} />
                         <Route path="/order/:orderId" element={<OrderDetails />} />
                         <Route path="/incidents/:ticketId" element={<IncidentDetails />} />
                     </Routes>
