@@ -7,6 +7,7 @@ import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import * as Papa from "papaparse";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import GroupIcon from "@mui/icons-material/Group";
 
 const baseURL = "http://localhost:3001";
 
@@ -240,10 +241,13 @@ export default function Users() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Users
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <GroupIcon color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h4" fontWeight={700}>
+                        Users
+                    </Typography>
+                </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>
                         {downloading ? <CircularProgress size={20} /> : <FileDownloadIcon />}

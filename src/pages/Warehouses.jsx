@@ -24,6 +24,7 @@ import { Close } from "@mui/icons-material";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import WarehouseIcon from "@mui/icons-material/Warehouse";
 
 import * as Papa from "papaparse";
 
@@ -283,10 +284,13 @@ export default function Warehouses() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Warehouses
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <WarehouseIcon color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h4" fontWeight={700}>
+                        Warehouses
+                    </Typography>
+                </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <Tooltip title="Add Warehouse" arrow>
                         <IconButton size="small" onClick={handleOpen} aria-label="Add Items" sx={{ width: "40px" }}>

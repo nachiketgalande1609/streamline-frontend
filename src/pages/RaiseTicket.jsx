@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Box, TextField, Typography, Button, Snackbar, Alert, MenuItem, Select, FormControl, InputLabel, Grid } from "@mui/material";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { UserContext } from "../context/UserContext";
+import HelpIcon from "@mui/icons-material/Help";
 
 export default function RaiseTicket() {
     const { user } = useContext(UserContext);
@@ -69,8 +70,9 @@ export default function RaiseTicket() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <HelpIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="h4" fontWeight={700}>
                     Raise Ticket
                 </Typography>
             </Box>

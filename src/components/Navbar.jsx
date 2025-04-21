@@ -11,13 +11,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import UsersIcon from "@mui/icons-material/People";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import OrdersIcon from "@mui/icons-material/ShoppingCart";
-import SalesIcon from "@mui/icons-material/ShowChart";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import WarningIcon from "@mui/icons-material/Warning";
-import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 import axios from "axios";
 
@@ -228,7 +227,7 @@ const Navbar = ({ profileImage, setProfileImage }) => {
                                 }}
                             >
                                 <ListItemIcon sx={{ color: "#ffffff" }}>
-                                    <SalesIcon />
+                                    <TrendingUpIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Sales" sx={{ color: "#ffffff" }} />
                             </ListItem>

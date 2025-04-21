@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { Box, Typography, Snackbar, Button, Alert, Tooltip } from "@mui/material";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { useNavigate } from "react-router-dom";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import WarningIcon from "@mui/icons-material/Warning";
 
 export default function TicketTable() {
     const navigate = useNavigate();
@@ -141,8 +142,9 @@ export default function TicketTable() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <WarningIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="h4" fontWeight={700}>
                     Incidents
                 </Typography>
             </Box>

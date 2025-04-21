@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Typography, Button, Snackbar, Alert, IconButton, Chip, Tooltip, CircularProgress } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import * as Papa from "papaparse";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 export default function Sales() {
     const navigate = useNavigate();
@@ -250,10 +251,13 @@ export default function Sales() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Sales
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <TrendingUpIcon color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h4" fontWeight={700}>
+                        Sales
+                    </Typography>
+                </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <Tooltip title="Export Data" arrow>
                         <IconButton size="small" onClick={handleExport} aria-label="Export to CSV" sx={{ width: "40px" }} disabled={downloading}>

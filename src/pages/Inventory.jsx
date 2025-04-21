@@ -11,6 +11,7 @@ import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import * as Papa from "papaparse";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 import {
     Modal,
@@ -739,10 +740,13 @@ export default function Inventory() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Inventory
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <InventoryIcon color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h4" fontWeight={700}>
+                        Inventory
+                    </Typography>
+                </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <Tooltip title="Edit Selected Records" arrow>
                         <IconButton

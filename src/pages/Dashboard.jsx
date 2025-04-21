@@ -1,42 +1,104 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Typography, Divider, CircularProgress, Box, Tooltip } from "@mui/material";
+import { Card, Typography, Divider, CircularProgress, Box, Tooltip, Grid, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import WarehouseIcon from "@mui/icons-material/Warehouse";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import GroupIcon from "@mui/icons-material/Group";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import { motion } from "framer-motion";
 
 const StyledCard = styled(Card)(({ theme }) => ({
-    backgroundColor: "#ffffff", // Transparent card background
-    color: "#FFFFFF", // White text
-    borderRadius: "16px",
-    boxShadow: "0px 4px 8px rgba(0,0,0,0.15)", // Softer shadow
-    padding: "20px",
+    background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
+    color: theme.palette.text.primary,
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    padding: "24px",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    border: "1px solid #333", // Border for a cleaner look
+    justifyContent: "space-between",
+    minHeight: "160px",
+    transition: "all 0.3s ease",
+    "&:hover": {
+        transform: "translateY(-5px)",
+        boxShadow: "0 12px 20px rgba(0,0,0,0.12)",
+    },
+    border: "none",
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "4px",
+        height: "100%",
+        background: theme.palette.primary.main,
+    },
 }));
 
 const CardTitle = styled(Typography)({
-    fontSize: "1rem",
-    fontWeight: "bold",
-    color: "#000", // Lighter color for the title
+    fontSize: "0.9rem",
+    fontWeight: 600,
+    color: "#666",
     marginBottom: "8px",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
 });
 
-const CardValue = styled(Typography)({
-    fontSize: "1.5rem",
-    fontWeight: "500",
-    color: "#000",
+const CardValue = styled(Typography)(({ theme }) => ({
+    fontSize: "2rem",
+    fontWeight: 700,
+    color: theme.palette.text.primary,
+    lineHeight: 1.2,
+}));
+
+const GrowthIndicator = styled(Box)(({ positive }) => ({
+    display: "inline-flex",
+    alignItems: "center",
+    fontSize: "0.75rem",
+    fontWeight: 500,
+    color: positive ? "#4CAF50" : "#F44336",
+    backgroundColor: positive ? "rgba(76, 175, 80, 0.1)" : "rgba(244, 67, 54, 0.1)",
+    padding: "4px 8px",
+    borderRadius: "12px",
+    marginTop: "8px",
+}));
+
+const WarehouseCard = styled(Card)(({ theme }) => ({
+    background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    padding: "20px",
+    minWidth: "220px",
+    transition: "all 0.3s ease",
+    "&:hover": {
+        transform: "translateY(-5px)",
+        boxShadow: "0 12px 20px rgba(0,0,0,0.12)",
+    },
+}));
+
+const SectionHeader = styled(Box)({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: "16px",
 });
 
-const StyledDivider = styled(Divider)({
-    backgroundColor: "#3E3E3E",
-    margin: "10px 0",
-});
+const SectionTitle = styled(Typography)(({ theme }) => ({
+    fontSize: "1.25rem",
+    fontWeight: 600,
+    color: theme.palette.text.primary,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+}));
 
 export default function Dashboard() {
     const [dashboardData, setDashboardData] = useState({
@@ -44,10 +106,12 @@ export default function Dashboard() {
         warehouseCount: 0,
         orderCount: 0,
         customerCount: 0,
+        ticketCount: 0,
         warehouse_summary: [],
     });
 
     const [loading, setLoading] = useState(true);
+    const theme = useTheme();
 
     const breadcrumbs = [{ label: "Home", path: "" }];
 
@@ -72,30 +136,57 @@ export default function Dashboard() {
 
     const CountCards = () => {
         const cardDetails = [
-            { title: "Total Users", value: dashboardData.userCount },
-            { title: "Total Warehouses", value: dashboardData.warehouseCount },
-            { title: "Total Orders", value: dashboardData.orderCount },
-            { title: "Total Customers", value: dashboardData.customerCount },
-            { title: "Total Tickets", value: dashboardData.ticketCount },
+            {
+                title: "Total Users",
+                value: dashboardData.userCount,
+                icon: <PeopleAltIcon fontSize="small" />,
+                growth: "+5.2%",
+            },
+            {
+                title: "Total Warehouses",
+                value: dashboardData.warehouseCount,
+                icon: <WarehouseIcon fontSize="small" />,
+                growth: "+2.1%",
+            },
+            {
+                title: "Total Orders",
+                value: dashboardData.orderCount,
+                icon: <ShoppingCartIcon fontSize="small" />,
+                growth: "+12.7%",
+            },
+            {
+                title: "Total Customers",
+                value: dashboardData.customerCount,
+                icon: <GroupIcon fontSize="small" />,
+                growth: "+8.3%",
+            },
+            {
+                title: "Total Tickets",
+                value: dashboardData.ticketCount,
+                icon: <SupportAgentIcon fontSize="small" />,
+                growth: "-3.4%",
+            },
         ];
 
         return (
-            <Box display="flex" flexWrap="wrap" justifyContent="space-between" sx={{ marginTop: "12px", gap: "16px" }}>
+            <Grid container spacing={3} sx={{ mt: 2 }}>
                 {cardDetails.map((card, index) => (
-                    <Box
-                        key={index}
-                        sx={{
-                            flex: "1 1 calc(20% - 20px)", // Adjusting width
-                        }}
-                    >
-                        <StyledCard>
-                            <CardTitle>{card.title}</CardTitle>
-                            <StyledDivider />
-                            <CardValue>{card.value}</CardValue>
-                        </StyledCard>
-                    </Box>
+                    <Grid item xs={12} sm={6} md={4} lg={2.4} key={index}>
+                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: index * 0.1 }}>
+                            <StyledCard>
+                                <Box>
+                                    <CardTitle>
+                                        {card.icon}
+                                        {card.title}
+                                    </CardTitle>
+                                    <CardValue>{card.value}</CardValue>
+                                    <GrowthIndicator positive={!card.growth.startsWith("-")}>{card.growth}</GrowthIndicator>
+                                </Box>
+                            </StyledCard>
+                        </motion.div>
+                    </Grid>
                 ))}
-            </Box>
+            </Grid>
         );
     };
 
@@ -108,7 +199,7 @@ export default function Dashboard() {
                     dashboardData.warehouse_summary.map((warehouse, index) => {
                         const targetPercentage = Math.round((warehouse.currentStock / warehouse.capacity) * 100);
                         const current = prevStock[index] || 0;
-                        return current < targetPercentage ? current + 5 : targetPercentage; // Increase gradually
+                        return current < targetPercentage ? current + 5 : targetPercentage;
                     })
                 );
             }, 50);
@@ -119,81 +210,118 @@ export default function Dashboard() {
         return (
             <Box
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "20px",
-                    borderRadius: "16px",
-                    boxShadow: "0px 4px 8px rgba(0,0,0,0.40)",
-                    marginTop: "20px",
-                    gap: "16px",
+                    background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
+                    borderRadius: "12px",
+                    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+                    padding: "24px",
+                    mt: 4,
                 }}
             >
-                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography variant="h6">Warehouses</Typography>
+                <SectionHeader>
+                    <SectionTitle>
+                        <WarehouseIcon fontSize="small" />
+                        Warehouse Capacity
+                    </SectionTitle>
                     <Tooltip title="This section provides a quick view of each warehouse's total and available capacity" placement="right">
-                        <InfoOutlinedIcon sx={{ width: "20px", ml: 1, color: "#aaa" }} />
+                        <InfoOutlinedIcon sx={{ color: theme.palette.text.secondary }} />
                     </Tooltip>
-                </Box>
+                </SectionHeader>
+
                 <Box
                     sx={{
                         display: "flex",
-                        flexDirection: "row",
-                        gap: "16px",
+                        gap: 3,
                         overflowX: "auto",
-                        paddingBottom: "20px",
+                        pb: 2,
+                        pt: 1,
+                        "&::-webkit-scrollbar": {
+                            height: "6px",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                            backgroundColor: theme.palette.divider,
+                            borderRadius: "3px",
+                        },
                     }}
                 >
                     {dashboardData.warehouse_summary.map((warehouse, index) => {
                         const stockPercentage = animatedStock[index] || 0;
-                        const gaugeColor = stockPercentage > 70 ? "#FF5252" : stockPercentage > 50 ? "#FFC107" : "#4CAF50";
+                        const gaugeColor =
+                            stockPercentage > 85 ? "#F44336" : stockPercentage > 70 ? "#FF9800" : stockPercentage > 50 ? "#FFC107" : "#4CAF50";
 
                         return (
-                            <StyledCard key={index} sx={{ minWidth: "200px" }}>
-                                <CardTitle>{`Warehouse ${warehouse.warehouse_id}`}</CardTitle>
-                                <StyledDivider />
-                                <Box position="relative" display="inline-flex">
-                                    <CircularProgress
-                                        variant="determinate"
-                                        value={100}
-                                        size={80}
-                                        thickness={6}
-                                        sx={{
-                                            color: "#dbdbdb",
-                                            position: "absolute",
-                                        }}
-                                    />
-                                    <CircularProgress
-                                        variant="determinate"
-                                        value={stockPercentage}
-                                        size={80}
-                                        thickness={6}
-                                        sx={{
-                                            color: gaugeColor,
-                                            transition: "all 0.5s ease-in-out",
-                                        }}
-                                    />
-                                    {/* Display Percentage at the Center */}
-                                    <Box
-                                        sx={{
-                                            top: 0,
-                                            left: 0,
-                                            bottom: 0,
-                                            right: 0,
-                                            position: "absolute",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                        }}
-                                    >
-                                        <Typography variant="caption" component="div" color="textSecondary">
-                                            {`${stockPercentage}%`}
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                                <WarehouseCard>
+                                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                                        {`Warehouse #${warehouse.warehouse_id}`}
+                                    </Typography>
+                                    <Box sx={{ position: "relative", display: "inline-flex", mb: 2 }}>
+                                        <CircularProgress
+                                            variant="determinate"
+                                            value={100}
+                                            size={100}
+                                            thickness={4}
+                                            sx={{
+                                                color: theme.palette.divider,
+                                                position: "absolute",
+                                            }}
+                                        />
+                                        <CircularProgress
+                                            variant="determinate"
+                                            value={stockPercentage}
+                                            size={100}
+                                            thickness={4}
+                                            sx={{
+                                                color: gaugeColor,
+                                                transition: "all 0.5s ease-in-out",
+                                            }}
+                                        />
+                                        <Box
+                                            sx={{
+                                                top: 0,
+                                                left: 0,
+                                                bottom: 0,
+                                                right: 0,
+                                                position: "absolute",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <Typography variant="h6" component="div" fontWeight={700}>
+                                                {`${stockPercentage}%`}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box sx={{ textAlign: "center" }}>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {`${warehouse.currentStock} / ${warehouse.capacity} units`}
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{
+                                                color: gaugeColor,
+                                                fontWeight: 600,
+                                                display: "inline-block",
+                                                mt: 0.5,
+                                            }}
+                                        >
+                                            {stockPercentage > 85
+                                                ? "Critical"
+                                                : stockPercentage > 70
+                                                ? "High"
+                                                : stockPercentage > 50
+                                                ? "Moderate"
+                                                : "Low"}{" "}
+                                            capacity
                                         </Typography>
                                     </Box>
-                                </Box>
-                                <Typography sx={{ marginTop: "10px", color: "#000" }}>
-                                    {`Stock: ${warehouse.currentStock}/${warehouse.capacity}`}
-                                </Typography>
-                            </StyledCard>
+                                </WarehouseCard>
+                            </motion.div>
                         );
                     })}
                 </Box>
@@ -210,13 +338,19 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
-            <Typography variant="h5" sx={{ marginBottom: "12px" }}>
-                Dashboard
-            </Typography>
+        <Box>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <DashboardIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="h4" fontWeight={700}>
+                    Dashboard Overview
+                </Typography>
+            </Box>
+
             <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
+
             <CountCards />
+
             <WarehouseGauge />
-        </div>
+        </Box>
     );
 }

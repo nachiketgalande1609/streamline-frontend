@@ -3,11 +3,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, Typography, CircularProgress, Stepper, Step, StepLabel, MenuItem, Select, Button, Snackbar, Alert } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 
 export default function OrderDetails() {
     const navigate = useNavigate();
@@ -130,7 +130,7 @@ export default function OrderDetails() {
                     <IconButton onClick={() => navigate(`/orders`)} sx={{ mr: 1 }}>
                         <ChevronLeftIcon />
                     </IconButton>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant="h4" fontWeight={700}>
                         Order Details for Order ID: {orderId}
                     </Typography>
                 </Box>

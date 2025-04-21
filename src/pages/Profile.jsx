@@ -18,7 +18,7 @@ import {
     CircularProgress,
 } from "@mui/material";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
-
+import PersonIcon from "@mui/icons-material/Person";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
@@ -144,9 +144,12 @@ export default function Profile({ profileImage, setProfileImage }) {
 
     return (
         <div>
-            <Typography variant="h5" gutterBottom>
-                Profile
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <PersonIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="h4" fontWeight={700}>
+                    Profile
+                </Typography>
+            </Box>
             <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
 
             {loading ? (

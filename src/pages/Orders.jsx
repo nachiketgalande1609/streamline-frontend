@@ -29,6 +29,7 @@ import { Close } from "@mui/icons-material";
 import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
 import GradientCircularProgress from "../parts/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US");
 
@@ -877,10 +878,13 @@ export default function Orders() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Orders
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <ShoppingCartIcon color="primary" sx={{ mr: 1 }} />
+                    <Typography variant="h4" fontWeight={700}>
+                        Orders
+                    </Typography>
+                </Box>
                 <Box sx={{ display: "flex", gap: 1 }}>
                     <Tooltip title="Create Order" arrow>
                         <IconButton

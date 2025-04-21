@@ -22,8 +22,8 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 
 const SLA_DURATION = 4 * 60 * 60 * 1000;
 
@@ -665,10 +665,12 @@ export default function IncidentDetails() {
 
     return (
         <div>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Typography variant="h5" gutterBottom sx={{ flexGrow: 1 }}>
-                    Incident Details
-                </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                    <Typography variant="h4" fontWeight={700}>
+                        Incident Details
+                    </Typography>
+                </Box>
                 <Button variant="outlined" color="default" onClick={handleSave} size="medium" sx={{ borderRadius: "16px" }}>
                     Update
                 </Button>
