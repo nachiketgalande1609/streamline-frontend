@@ -4,8 +4,6 @@ import {
     Box,
     Button,
     Card,
-    Grid,
-    Avatar,
     Typography,
     TextField,
     FormControl,
@@ -16,15 +14,84 @@ import {
     Alert,
     Tooltip,
     CircularProgress,
+    Avatar,
+    Grid,
+    useTheme,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import GradientCircularProgress from "../components/GradientCircularProgress";
 import PersonIcon from "@mui/icons-material/Person";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
+import { motion } from "framer-motion";
 
 const baseURL = "http://localhost:3001";
+
+const StyledCard = styled(Card)(({ theme }) => ({
+    background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    padding: "24px",
+    transition: "all 0.3s ease",
+    position: "relative",
+    overflow: "hidden",
+    "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "4px",
+        height: "100%",
+        background: theme.palette.primary.main,
+    },
+}));
+
+const ProfileCard = styled(Card)(({ theme }) => ({
+    background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",
+    borderRadius: "12px",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.08)",
+    padding: "32px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    transition: "all 0.3s ease",
+    position: "relative",
+    "&::before": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "4px",
+        height: "100%",
+        background: theme.palette.primary.main,
+    },
+}));
+
+const StyledTextField = styled(TextField)({
+    "& .MuiOutlinedInput-root": {
+        borderRadius: "12px",
+        "& fieldset": {
+            transition: "all 0.3s ease",
+        },
+        "&:hover fieldset": {
+            borderColor: "#1976d2",
+        },
+    },
+});
+
+const StyledSelect = styled(Select)({
+    borderRadius: "12px",
+    "& .MuiOutlinedInput-notchedOutline": {
+        transition: "all 0.3s ease",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#1976d2",
+    },
+});
 
 export default function Profile({ profileImage, setProfileImage }) {
     const { user, updateUser } = useContext(UserContext);
@@ -46,6 +113,7 @@ export default function Profile({ profileImage, setProfileImage }) {
 
     const roles = ["admin", "sales", "user", "manager"];
     const statuses = ["active", "inactive", "pending"];
+    const theme = useTheme();
 
     const [loading, setLoading] = useState(true);
     const [updatingProfile, setUpdatingProfile] = useState(false);
@@ -143,11 +211,11 @@ export default function Profile({ profileImage, setProfileImage }) {
     };
 
     return (
-        <div>
+        <Box>
             <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <PersonIcon color="primary" sx={{ mr: 1 }} />
                 <Typography variant="h4" fontWeight={700}>
-                    Profile
+                    My Profile
                 </Typography>
             </Box>
             <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
@@ -157,276 +225,245 @@ export default function Profile({ profileImage, setProfileImage }) {
                     <GradientCircularProgress />
                 </Box>
             ) : (
-                <Box sx={{ display: "flex", marginTop: "16px", width: "100%" }}>
-                    <Box
-                        sx={{
-                            flex: 1,
-                            padding: 3,
-                            borderRadius: "16px",
-                            textAlign: "center",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            border: "1px solid #333",
-                            boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
-                        }}
-                    >
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id="upload-profile-picture"
-                            style={{ display: "none" }}
-                            onChange={handleProfilePictureChange}
-                        />
-                        <label htmlFor="upload-profile-picture" style={{ position: "relative" }}>
-                            <Tooltip title="Upload Profile Image" placement="top" arrow>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={4}>
+                            <ProfileCard>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="upload-profile-picture"
+                                    style={{ display: "none" }}
+                                    onChange={handleProfilePictureChange}
+                                />
+                                <label htmlFor="upload-profile-picture" style={{ position: "relative" }}>
+                                    <Tooltip title="Upload Profile Image" placement="top" arrow>
+                                        <Box
+                                            sx={{
+                                                position: "relative",
+                                                "&:hover .overlay": {
+                                                    opacity: 1,
+                                                    cursor: "pointer",
+                                                },
+                                            }}
+                                        >
+                                            <Avatar
+                                                src={
+                                                    profileImage
+                                                        ? `${baseURL}${profileImage}`
+                                                        : "https://static-00.iconduck.com/assets.00/profile-major-icon-512x512-xosjbbdq.png"
+                                                }
+                                                alt="Profile"
+                                                sx={{
+                                                    width: 180,
+                                                    height: 180,
+                                                    borderRadius: "50%",
+                                                    marginBottom: 2,
+                                                    border: `4px solid ${theme.palette.primary.main}`,
+                                                    cursor: "pointer",
+                                                    position: "relative",
+                                                    zIndex: 1,
+                                                }}
+                                            />
+                                            {updatingProfilePicture && (
+                                                <Box
+                                                    className="overlay"
+                                                    sx={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        left: 0,
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        borderRadius: "50%",
+                                                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                                        opacity: 1,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        transition: "opacity 0.3s ease",
+                                                        zIndex: 2,
+                                                    }}
+                                                >
+                                                    <CircularProgress size={50} sx={{ color: "#fff" }} />
+                                                </Box>
+                                            )}
+                                            {!updatingProfilePicture && (
+                                                <Box
+                                                    className="overlay"
+                                                    sx={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        left: 0,
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        borderRadius: "50%",
+                                                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                                                        opacity: 0,
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        transition: "opacity 0.3s ease",
+                                                        zIndex: 2,
+                                                    }}
+                                                >
+                                                    <CameraAlt sx={{ color: "#fff", fontSize: 30 }} />
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    </Tooltip>
+                                </label>
+
+                                <Typography variant="h5" fontWeight={700} gutterBottom>
+                                    {userData?.firstName} {userData?.lastName}
+                                </Typography>
                                 <Box
                                     sx={{
-                                        position: "relative",
-                                        "&:hover .overlay": {
-                                            opacity: 1,
-                                            cursor: "pointer",
-                                        },
+                                        backgroundColor: theme.palette.primary.light,
+                                        color: theme.palette.primary.main,
+                                        px: 2,
+                                        py: 1,
+                                        borderRadius: "12px",
+                                        fontWeight: 600,
+                                        textTransform: "capitalize",
+                                        mb: 2,
+                                        color: "#ffffff",
                                     }}
                                 >
-                                    <Avatar
-                                        src={
-                                            profileImage
-                                                ? `${baseURL}${profileImage}`
-                                                : "https://static-00.iconduck.com/assets.00/profile-major-icon-512x512-xosjbbdq.png"
-                                        }
-                                        alt="Profile"
-                                        sx={{
-                                            width: 180,
-                                            height: 180,
-                                            borderRadius: "50%",
-                                            marginBottom: 2,
-                                            border: "4px solid #1E1E1E",
-                                            cursor: "pointer",
-                                            position: "relative", // Ensure it sits relative to the overlay
-                                            zIndex: 1, // Keep it behind the overlay
-                                        }}
-                                    />
-                                    {/* Loading overlay */}
-                                    {updatingProfilePicture && (
-                                        <Box
-                                            className="overlay"
+                                    {userData?.role}
+                                </Box>
+                                <Typography variant="body1" color="text.secondary">
+                                    {userData?.email}
+                                </Typography>
+                                <Typography variant="body1" color="text.secondary">
+                                    {userData?.phoneNumber}
+                                </Typography>
+                            </ProfileCard>
+                        </Grid>
+
+                        <Grid item xs={12} md={8}>
+                            <StyledCard>
+                                <Typography variant="h5" fontWeight={700} gutterBottom>
+                                    Profile Information
+                                </Typography>
+                                <form onSubmit={handleSubmit}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6}>
+                                            <StyledTextField
+                                                label="First Name"
+                                                name="firstName"
+                                                value={formData?.firstName}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="normal"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <StyledTextField
+                                                label="Last Name"
+                                                name="lastName"
+                                                value={formData?.lastName}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="normal"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <StyledTextField
+                                                label="Phone Number"
+                                                name="phoneNumber"
+                                                value={formData?.phoneNumber}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="normal"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <StyledTextField
+                                                label="Email Address"
+                                                name="email"
+                                                value={formData?.email}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="normal"
+                                                disabled
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <FormControl fullWidth margin="normal">
+                                                <InputLabel id="status-label">Status</InputLabel>
+                                                <StyledSelect
+                                                    labelId="status-label"
+                                                    name="status"
+                                                    value={formData?.status}
+                                                    onChange={handleChange}
+                                                    label="Status"
+                                                >
+                                                    {statuses.map((status) => (
+                                                        <MenuItem key={status} value={status}>
+                                                            {status}
+                                                        </MenuItem>
+                                                    ))}
+                                                </StyledSelect>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <FormControl fullWidth margin="normal">
+                                                <InputLabel id="role-label">Role</InputLabel>
+                                                <StyledSelect
+                                                    labelId="role-label"
+                                                    name="role"
+                                                    value={formData?.role}
+                                                    onChange={handleChange}
+                                                    label="Role"
+                                                >
+                                                    {roles.map((role) => (
+                                                        <MenuItem key={role} value={role}>
+                                                            {role}
+                                                        </MenuItem>
+                                                    ))}
+                                                </StyledSelect>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 3 }}>
+                                        <LoadingButton
+                                            type="submit"
+                                            variant="contained"
+                                            loading={updatingProfile}
+                                            loadingPosition="end"
                                             sx={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: "100%",
-                                                height: "100%",
-                                                borderRadius: "50%",
-                                                backgroundColor: "rgba(0, 0, 0, 0.3)",
-                                                opacity: 1, // Ensure it's visible when updating
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                transition: "opacity 0.3s ease",
-                                                zIndex: 2, // Place overlay above the avatar
+                                                borderRadius: "12px",
+                                                px: 4,
+                                                py: 1.5,
+                                                fontWeight: 600,
+                                                textTransform: "none",
+                                                fontSize: "1rem",
                                             }}
                                         >
-                                            <CircularProgress size={50} sx={{ color: "#fff" }} />
-                                        </Box>
-                                    )}
-                                    {/* Camera icon overlay */}
-                                    {!updatingProfilePicture && (
-                                        <Box
-                                            className="overlay"
-                                            sx={{
-                                                position: "absolute",
-                                                top: 0,
-                                                left: 0,
-                                                width: "100%",
-                                                height: "100%",
-                                                borderRadius: "50%",
-                                                backgroundColor: "rgba(0, 0, 0, 0.3)",
-                                                opacity: 0,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                transition: "opacity 0.3s ease",
-                                                zIndex: 2, // Ensure the icon is above the avatar
-                                            }}
-                                        >
-                                            <CameraAlt sx={{ color: "#fff", fontSize: 30 }} />
-                                        </Box>
-                                    )}
-                                </Box>
-                            </Tooltip>
-                        </label>
-
-                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                            {userData?.firstName} {userData?.lastName}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            {userData?.role}
-                        </Typography>
-                    </Box>
-
-                    <Box
-                        sx={{
-                            flex: 2,
-                            padding: 3,
-                            borderRadius: "16px",
-                            marginLeft: "16px",
-                            border: "1px solid #333",
-                            boxShadow: "0px 4px 8px rgba(0,0,0,0.15)",
-                        }}
-                    >
-                        <Typography variant="h6" gutterBottom>
-                            Profile Information
-                        </Typography>
-                        <form onSubmit={handleSubmit}>
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                                {/* First Name */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <TextField
-                                        label="First Name"
-                                        name="firstName"
-                                        value={formData?.firstName}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        margin="normal"
-                                        InputProps={{
-                                            style: { borderRadius: "16px" },
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Last Name */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <TextField
-                                        label="Last Name"
-                                        name="lastName"
-                                        value={formData?.lastName}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        margin="normal"
-                                        InputProps={{
-                                            style: { borderRadius: "16px" },
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Phone Number */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <TextField
-                                        label="Phone Number"
-                                        name="phoneNumber"
-                                        value={formData?.phoneNumber}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        margin="normal"
-                                        InputProps={{
-                                            style: { borderRadius: "16px" },
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Email Address */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <TextField
-                                        label="Email Address"
-                                        name="email"
-                                        value={formData?.email}
-                                        onChange={handleChange}
-                                        fullWidth
-                                        margin="normal"
-                                        InputProps={{
-                                            style: { borderRadius: "16px" },
-                                        }}
-                                    />
-                                </Box>
-
-                                {/* Status */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <FormControl fullWidth margin="normal">
-                                        <InputLabel id="status-label">Status</InputLabel>
-                                        <Select
-                                            labelId="status-label"
-                                            name="status"
-                                            value={formData?.status}
-                                            onChange={handleChange}
-                                            label="Status"
-                                            sx={{
-                                                borderRadius: "16px", // Add border radius here
-                                            }}
-                                        >
-                                            {statuses.map((status) => (
-                                                <MenuItem key={status} value={status}>
-                                                    {status}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-
-                                {/* Role */}
-                                <Box sx={{ flex: "1 1 45%" }}>
-                                    <FormControl fullWidth margin="normal">
-                                        <InputLabel id="role-label">Role</InputLabel>
-                                        <Select
-                                            labelId="role-label"
-                                            name="role"
-                                            value={formData?.role}
-                                            onChange={handleChange}
-                                            label="Role"
-                                            sx={{
-                                                borderRadius: "16px", // Add border radius here
-                                            }}
-                                        >
-                                            {roles.map((role) => (
-                                                <MenuItem key={role} value={role}>
-                                                    {role}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Box>
-
-                            {/* Update Button */}
-                            <Box sx={{ display: "flex", justifyContent: "end", marginTop: 2 }}>
-                                <LoadingButton
-                                    type="submit"
-                                    variant="contained"
-                                    loading={updatingProfile}
-                                    loadingPosition="end"
-                                    sx={{
-                                        borderRadius: "16px",
-                                        width: "150px",
-                                        backgroundColor: "#000000",
-                                        "&:hover": {
-                                            backgroundColor: "#424242",
-                                        },
-                                    }}
-                                >
-                                    {updatingProfile ? "Updating" : "Update"}
-                                </LoadingButton>
-                            </Box>
-                        </form>
-                    </Box>
-                </Box>
+                                            {updatingProfile ? "Saving..." : "Save Changes"}
+                                        </LoadingButton>
+                                    </Box>
+                                </form>
+                            </StyledCard>
+                        </Grid>
+                    </Grid>
+                </motion.div>
             )}
 
-            <Snackbar
-                open={alertOpen}
-                autoHideDuration={6000}
-                onClose={handleAlertClose}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                action={
-                    <Button color="inherit" onClick={handleAlertClose}>
-                        Close
-                    </Button>
-                }
-            >
-                <Alert onClose={handleAlertClose} severity={severity} sx={{ width: "100%" }}>
+            <Snackbar open={alertOpen} autoHideDuration={6000} onClose={handleAlertClose} anchorOrigin={{ vertical: "top", horizontal: "right" }}>
+                <Alert
+                    onClose={handleAlertClose}
+                    severity={severity}
+                    sx={{
+                        width: "100%",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    }}
+                >
                     {message}
                 </Alert>
             </Snackbar>
-        </div>
+        </Box>
     );
 }
