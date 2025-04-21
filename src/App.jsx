@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Typography } from "@mui/material";
-import Navbar from "./parts/Navbar";
+import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
@@ -20,7 +20,7 @@ import OrderDetails from "./pages/OrderDetails";
 import RaiseTicket from "./pages/RaiseTicket";
 import Incidents from "./pages/Incidents";
 import IncidentDetails from "./pages/IncidentDetails";
-import GradientCircularProgress from "./parts/GradientCircularProgress";
+import GradientCircularProgress from "./components/GradientCircularProgress";
 import backgroundImage from "../assets/bg.jpg";
 
 axios.defaults.baseURL = "http://localhost:3001";

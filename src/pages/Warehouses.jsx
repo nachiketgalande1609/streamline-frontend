@@ -21,8 +21,8 @@ import {
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import AddIcon from "@mui/icons-material/Add";
 import { Close } from "@mui/icons-material";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 

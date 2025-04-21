@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Typography, Divider, CircularProgress, Box, Tooltip, Grid, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -22,7 +22,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    minHeight: "160px",
+    height: "100px",
     transition: "all 0.3s ease",
     "&:hover": {
         transform: "translateY(-5px)",
@@ -78,6 +78,9 @@ const WarehouseCard = styled(Card)(({ theme }) => ({
     padding: "20px",
     minWidth: "220px",
     transition: "all 0.3s ease",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     "&:hover": {
         transform: "translateY(-5px)",
         boxShadow: "0 12px 20px rgba(0,0,0,0.12)",
@@ -300,24 +303,6 @@ export default function Dashboard() {
                                     <Box sx={{ textAlign: "center" }}>
                                         <Typography variant="body2" color="text.secondary">
                                             {`${warehouse.currentStock} / ${warehouse.capacity} units`}
-                                        </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                color: gaugeColor,
-                                                fontWeight: 600,
-                                                display: "inline-block",
-                                                mt: 0.5,
-                                            }}
-                                        >
-                                            {stockPercentage > 85
-                                                ? "Critical"
-                                                : stockPercentage > 70
-                                                ? "High"
-                                                : stockPercentage > 50
-                                                ? "Moderate"
-                                                : "Low"}{" "}
-                                            capacity
                                         </Typography>
                                     </Box>
                                 </WarehouseCard>

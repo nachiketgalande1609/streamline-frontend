@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import backgroundImage from "../../assets/bg.jpg";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 
 import {
     Container,

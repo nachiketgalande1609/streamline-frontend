@@ -7,9 +7,9 @@ import Chip from "@mui/material/Chip";
 import { Close } from "@mui/icons-material";
 import EditIcon from "@mui/icons-material/Edit";
 import Grid from "@mui/material/Grid";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import * as Papa from "papaparse";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
 import InventoryIcon from "@mui/icons-material/Inventory";
 

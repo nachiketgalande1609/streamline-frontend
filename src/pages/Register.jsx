@@ -17,7 +17,7 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 
 export default function Register() {
     const navigate = useNavigate();

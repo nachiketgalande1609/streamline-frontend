@@ -17,12 +17,12 @@ import {
     Tooltip,
     CircularProgress,
 } from "@mui/material";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import PersonIcon from "@mui/icons-material/Person";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CameraAlt } from "@mui/icons-material";
 import { UserContext } from "../context/UserContext";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 
 const baseURL = "http://localhost:3001";
 

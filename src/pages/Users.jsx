@@ -3,9 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { Box, Typography, Button, Snackbar, Alert, IconButton, MenuItem, FormControl, Select, Chip, CircularProgress } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import BreadcrumbsComponent from "../parts/BreadcrumbsComponent";
+import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import * as Papa from "papaparse";
-import GradientCircularProgress from "../parts/GradientCircularProgress";
+import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 
