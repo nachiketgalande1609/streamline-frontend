@@ -27,7 +27,7 @@ import { UserContext } from "../context/UserContext";
 import BreadcrumbsComponent from "../components/BreadcrumbsComponent";
 import { motion } from "framer-motion";
 
-const baseURL = "http://localhost:3001";
+const baseURL = "https://streamline-backend-700h.onrender.com";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     background: "linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)",

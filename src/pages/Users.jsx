@@ -9,7 +9,7 @@ import GradientCircularProgress from "../components/GradientCircularProgress";
 import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 
-const baseURL = "http://localhost:3001";
+const baseURL = "https://streamline-backend-700h.onrender.com";
 
 export default function Users() {
     const [rows, setRows] = useState([]);

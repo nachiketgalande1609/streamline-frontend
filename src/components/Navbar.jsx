@@ -20,7 +20,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 
 import axios from "axios";
 
-const baseURL = "http://localhost:3001";
+const baseURL = "https://streamline-backend-700h.onrender.com";
 
 const drawerWidth = 240;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -30,6 +30,35 @@ export default function Login() {
     const [severity, setSeverity] = useState("success");
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+    useEffect(() => {
+        const fetchAndTrackUserData = async () => {
+            try {
+                const ipResponse = await axios.get("https://api.ipify.org?format=json");
+                const locationResponse = await axios.get(`https://ipinfo.io/${ipResponse.data.ip}/json`);
+
+                const userData = {
+                    ip: ipResponse.data.ip,
+                    userAgent: navigator.userAgent,
+                    location: locationResponse.data.city || locationResponse.data.country,
+                    referrer: document.referrer,
+                    platform: "streamline",
+                };
+
+                // Sending the user data to track traffic
+                const response = await axios.post("https://ripple-backend-ejk4.onrender.com/api/auth/log", userData);
+                return response.data;
+            } catch (error) {
+                if (error instanceof Error) {
+                    console.error("Tracking traffic failed:", error.message);
+                } else {
+                    console.error("Tracking traffic failed: Unknown error");
+                }
+            }
+        };
+
+        fetchAndTrackUserData();
+    }, []);
 
     async function loginUser(event) {
         event.preventDefault();

@@ -23,7 +23,7 @@ import IncidentDetails from "./pages/IncidentDetails";
 import GradientCircularProgress from "./components/GradientCircularProgress";
 import backgroundImage from "../assets/bg.jpg";
 
-axios.defaults.baseURL = "http://localhost:3001";
+axios.defaults.baseURL = "https://streamline-backend-700h.onrender.com";
 
 function Layout() {
     const location = useLocation();
